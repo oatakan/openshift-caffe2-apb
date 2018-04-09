@@ -1,0 +1,5 @@
+namespace: nvidia
+application_name: caffe2
+container_image_name: caffe2ai/caffe2
+
+oc_config_file_location: ~/.kube/config

@@ -1,0 +1,16 @@
+version: 1.0
+name: caffe2-apb
+description: APB for deploying caffe2
+bindable: False
+async: optional
+tags:
+  - gpu
+metadata:
+  displayName: caffe2 (APB)
+plans:
+  - name: default
+    metadata:
+      displayName: caffe2
+      longDescription: Deploy caffe2
+    description: caffe2
+    free: True

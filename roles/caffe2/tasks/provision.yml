@@ -1,0 +1,31 @@
+---
+- name: deploy caffe2 pod
+  k8s_v1_pod:
+    name: "{{ application_name }}"
+    namespace: "{{ namespace }}"
+    state: present
+    metadata:
+      name: "{{ application_name }}"
+      namespace: "{{ namespace }}"
+    host_network: yes
+    restart_policy: OnFailure
+    spec_template_metadata_labels:
+      name: "{{ application_name }}"
+    containers:
+      - name: "{{ application_name }}"
+        image: "{{ container_image_name }}"
+        command: ["jupyter"]
+        args: ["notebook", "--allow-root", "--port=8888", "--no-browser", "--ip=0.0.0.0"]
+        env:
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: all
+          - name: NVIDIA_DRIVER_CAPABILITIES
+            value: "compute,utility"
+          - name: NVIDIA_REQUIRE_CUDA
+            value: "cuda>=8.0"
+        ports:
+          - container_port: 8888
+            protocol: TCP
+        resources:
+          limits:
+            nvidia.com/gpu: 1 # requesting 1 GPU

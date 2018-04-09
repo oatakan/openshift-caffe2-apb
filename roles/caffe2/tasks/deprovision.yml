@@ -1,0 +1,6 @@
+---
+- name: remove caffe2 pod
+  k8s_v1_pod:
+    name: "{{ application_name }}"
+    namespace: "{{ namespace }}"
+    state: absent
