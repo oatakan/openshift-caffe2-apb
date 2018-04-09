@@ -7,7 +7,7 @@
     restart_policy: OnFailure
     labels:
       app: "{{ application_name }}"
-      namespace: "{{ namespace }}"
+      service: "{{ application_name }}"
     containers:
       - name: "{{ application_name }}"
         image: "{{ container_image_name }}"
