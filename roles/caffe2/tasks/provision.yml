@@ -51,3 +51,4 @@
       service: "{{ application_name }}"
     to_name: "{{ application_name }}"
     spec_port_target_port: jupyter
+    path: /notebooks/caffe2/caffe2/python/tutorials/Multi-GPU_Training.ipynb
