@@ -1,4 +1,16 @@
 ---
+- name: remove route
+  openshift_v1_route:
+    name: "{{ application_name }}"
+    namespace: '{{ namespace }}'
+    state: absent
+
+- name: remove service
+  k8s_v1_service:
+    name: "{{ application_name }}"
+    namespace: '{{ namespace }}'
+    state: absent
+
 - name: remove caffe2 pod
   k8s_v1_pod:
     name: "{{ application_name }}"

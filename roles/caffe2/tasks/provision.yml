@@ -4,7 +4,6 @@
     name: "{{ application_name }}"
     namespace: "{{ namespace }}"
     state: present
-    host_network: yes
     restart_policy: OnFailure
     labels:
       app: "{{ application_name }}"
@@ -27,3 +26,28 @@
         resources:
           limits:
             nvidia.com/gpu: 1 # requesting 1 GPU
+
+- name: create service
+  k8s_v1_service:
+    name: "{{ application_name }}"
+    namespace: '{{ namespace }}'
+    labels:
+      app: "{{ application_name }}"
+      service: "{{ application_name }}"
+    selector:
+      app: "{{ application_name }}"
+      service: "{{ application_name }}"
+    ports:
+      - name: jupyter
+        port: 8888
+        target_port: 8888
+
+- name: create route
+  openshift_v1_route:
+    name: "{{ application_name }}"
+    namespace: '{{ namespace }}'
+    labels:
+      app: "{{ application_name }}"
+      service: "{{ application_name }}"
+    to_name: "{{ application_name }}"
+    spec_port_target_port: jupyter
