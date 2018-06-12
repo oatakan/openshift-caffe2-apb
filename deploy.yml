@@ -11,15 +11,15 @@
 
   post_tasks:
     - name: create project from namespace
-    openshift_raw:
-      api_version: v1
-      kind: Project
-      name: '{{ namespace }}'
-      description: '{{ namespace }}'
-      display_name: '{{ namespace }}'
-      state: present
-    environment:
-      K8S_AUTH_KUBECONFIG: 'config'
+      openshift_raw:
+        api_version: v1
+        kind: Project
+        name: '{{ namespace }}'
+        description: '{{ namespace }}'
+        display_name: '{{ namespace }}'
+        state: present
+      environment:
+        K8S_AUTH_KUBECONFIG: 'config'
 
     - name: deploy caffe2 apb
       include_role:
