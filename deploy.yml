@@ -1,28 +1,25 @@
-- name: set up authentication and project
+- name: deploy
   hosts: localhost
   gather_facts: false
   connection: local
+  become: no
 
-  roles:
-    - oatakan.openshift-add-auth-config
-    - role: ansible.kubernetes-modules
-      install_python_requirements: no
-    - role: ansibleplaybookbundle.asb-modules
+  pre_tasks:
+    - name: authenticate with cluster
+      include_role:
+        name: oatakan.openshift-add-auth-config
+      vars:
+        oc_auth_type: api
 
-  post_tasks:
     - name: create project from namespace
       k8s:
         name: '{{ namespace }}'
         api_version: v1
         kind: Project
-        verify_ssl: no
+        validate_certs: no
         api_key: "{{ api_key }}"
         state: present
-      environment:
-        K8S_AUTH_KUBECONFIG: 'config'
 
-    - name: deploy caffe2 apb
-      include_role:
-        name: caffe2
-      vars:
-        action: provision
+  roles:
+    - role: caffe2-apb
+      apb_action: provision
